@@ -1,0 +1,13 @@
+{
+    "name": "ChatRoom"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.8"
+    , "jade": ">= 0.0.1"
+    , "socket.io": "1.4.5"
+    , "morgan": "1.7.0"
+    , "mysql": "2.11.1"
+    , "async": "2.0.1"
+  }
+}

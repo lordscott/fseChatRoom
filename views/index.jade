@@ -1,0 +1,27 @@
+h1= title
+p Welcome to #{title}
+
+div(id='content')
+	div(id='messages')
+	input(id='send-message')
+	br
+	button(id='send-button') submit
+
+script(type='text/javascript').
+	var socket = io.connect();
+	socket.on('message', function (data) {
+		$('#messages').append(data.name + ' ' + data.time + ' ' + data.text  +'<br/>');
+	});
+	socket.on('leave_room',function(data) {
+		alert('leave_room');
+		alert(data.text);
+	});
+	socket.emit('login',{name: 'John', password:'213213'});
+	$(document).ready(function(){
+	
+		$('#send-button').click(function(){
+			socket.emit('message', {text: $('#send-message').val()});
+			//$('#messages').append($('#send-message').val() +'<br/>');
+		});
+	});
+	
