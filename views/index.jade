@@ -1,27 +1,23 @@
 h1= title
 p Welcome to #{title}
 
-div(id='content')
-	div(id='messages')
-	input(id='send-message')
-	br
-	button(id='send-button') submit
+ul(class='views')
+    li(class='login_view')
+        div
+            span username
+            input(id='login_username', class='login_input', value='John')
+        div
+            span password
+            input(id='login_password', class='login_input', value='1')
+        button(id='login_button') login
+    li(class='message_view')
+        div(class='message_field')
+        ul(id='messages',class='messages')
+        input(id='message_input',class='input_field')
+        br
+        button(id='send_button') submit
+        button(id='leave_button') leave
 
-script(type='text/javascript').
-	var socket = io.connect();
-	socket.on('message', function (data) {
-		$('#messages').append(data.name + ' ' + data.time + ' ' + data.text  +'<br/>');
-	});
-	socket.on('leave_room',function(data) {
-		alert('leave_room');
-		alert(data.text);
-	});
-	socket.emit('login',{name: 'John', password:'213213'});
-	$(document).ready(function(){
-	
-		$('#send-button').click(function(){
-			socket.emit('message', {text: $('#send-message').val()});
-			//$('#messages').append($('#send-message').val() +'<br/>');
-		});
-	});
-	
+script(type='text/javascript', src='/javascripts/main.js').
+script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.4.5.js').
+script(typy='text/javascript', src='https://code.jquery.com/jquery-3.1.0.min.js').

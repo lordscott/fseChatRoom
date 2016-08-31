@@ -1,9 +1,9 @@
 var db = require('../DbHelper.js');
 
-exports.create = function(message_id, user_uuid, user_name, message_time, callback) {
-  var values = [message_id, user_uuid, user_name, message_time];
+exports.insert = function(user_uuid, user_name, message_text, message_time, callback) {
+  var values = [user_uuid, user_name, message_text, message_time];
   
-  db.get().query('INSERT INTO message_record (message_id, user_uuid, user_name, message_time) VALUES(?, ?, ?)', values, function(err, result) {
+  db.get().query('INSERT INTO message_record (user_uuid, user_name, message_text, message_time) VALUES(?, ?, ?, ?)', values, function(err, result) {
     if (err) return callback(err);
     callback(null, result.insertId);
   })
