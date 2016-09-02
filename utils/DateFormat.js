@@ -16,3 +16,7 @@ Date.prototype.Format = function (fmt) {
 exports.currentTime = function(){
 	return new Date().Format("yyyy-MM-dd HH:mm:ss");
 }
+
+exports.format = function(date){
+    return date.Format("yyyy-MM-dd HH:mm:ss");
+}

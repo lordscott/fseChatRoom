@@ -1,23 +1,14 @@
-h1= title
-p Welcome to #{title}
-
-ul(class='views')
-    li(class='login_view')
+div(class="views")
+    div(class="login_view")
         div
-            span username
-            input(id='login_username', class='login_input', value='John')
-        div
-            span password
-            input(id='login_password', class='login_input', value='1')
-        button(id='login_button') login
-    li(class='message_view')
-        div(class='message_field')
-        ul(id='messages',class='messages')
-        input(id='message_input',class='input_field')
-        br
-        button(id='send_button') submit
-        button(id='leave_button') leave
-
-script(type='text/javascript', src='/javascripts/main.js').
-script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.4.5.js').
+            p(class="login_info") Welcome to FSE Chat Room!
+            input(class="login_input",placeholder="What is your name?")
+    div(class="message_view")
+        div(class="message_nav") FSE Chat Room
+        div(class="message_field")
+            div
+            ul(class="message_list")
+        input(class="message_input")
 script(typy='text/javascript', src='https://code.jquery.com/jquery-3.1.0.min.js').
+script(type='text/javascript', src='https://cdn.socket.io/socket.io-1.4.5.js').
+script(type='text/javascript', src='/javascripts/main.js').
