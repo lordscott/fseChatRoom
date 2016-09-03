@@ -20,25 +20,37 @@ body {
     display: none;
 }
 .login_view{
+	height: 100%;
+	background: rgb(117,146,219);
+		border-radius: 10px;
+}
+
+.login_panel{
 	height: 100px;
 	text-align: center;
 	padding: 0;
 	margin: 0;
 	position: relative;
-	top: 190px;
+	top: 250px;
 }
 .login_info{
+	font-size: 40px;
 }
 
 
 /*input*/
 .login_input{
+	font-size: 28px;
 	text-align: center;
 	border: 0;
+	height: 50px;
+	width: 500px;
+	margin-top: 40px;
+	border-radius: 10px;
 }
 .message_nav{
 	color: white;
-	text-align: center;
+	font-size: 25px;
 	line-height: 70px;
 	margin: 0;
 	padding: 0;
@@ -47,6 +59,18 @@ body {
 	background: rgb(51,51,56);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
+}
+.message_nav_back{
+	float: left;
+	margin-left: 20px;
+	width: 80px;
+    cursor: pointer;
+}
+.message_nav_info{
+	float: left;
+	width: 200px;
+	text-align: center;
+	margin-left: 120px;
 }
 .message_field{
 	height: 670px;
@@ -79,15 +103,13 @@ body {
 	text-align: center;
 	left: 10%;
 	padding: 0;
-	padding-top: 15px;
-	margin-top: -15px;
+    margin-top: 20px;
 }
 
 .message_item{
 	border-radius: 10px;
 	width: 50%;
 	height: auto;
-	background: white;
 	margin: 0;
 	margin-left: 20px;
 	margin-top: 20px;
@@ -95,7 +117,6 @@ body {
 
 .message_item.self{
 	margin-left: 300px;
-	background: rgb(162,230,91)
 }
 
 .message_from{
@@ -116,4 +137,7 @@ body {
 .message_text{
 	margin-top: 0;
 	padding: 10px;
+}
+.message_space{
+    height: 1px;
 }

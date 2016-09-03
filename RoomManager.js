@@ -7,6 +7,7 @@ var RoomManager = function() {
 RoomManager.prototype.DEFAULT_ROOM_NAME = 'default_room';	
 RoomManager.prototype.EVENT_LOGIN = 'login';
 RoomManager.prototype.EVENT_MESSAGE= 'message';
+RoomManager.prototype.EVENT_LEAVE= 'leave';
 RoomManager.prototype.MESSAGE_TYPE_USER = 'message_user';
 RoomManager.prototype.MESSAGE_TYPE_SYSTEM = 'message_system';
 RoomManager.prototype.MESSAGE_TYPE_USER_MULTI = 'message_user_multi';
@@ -79,6 +80,7 @@ RoomManager.prototype.onClientLogin = function(client, data) {
         client.setOnDisconnect(that, that.onClientDisconnect);
         // set up what to do when the client receives a message
         client.setOnReceive(that, that.EVENT_MESSAGE, that.onClientMessage);
+        client.setOnReceive(that, that.EVENT_LEAVE, that.onClientLeaveRoom);
 	})(this);	
 }
 
@@ -125,13 +127,15 @@ RoomManager.prototype.onClientLeaveRoom = function(client){
             text: client.name + ' has leaved.'
         }
     });
+    client.leave();
+    this.clientInit(client);
 }
 
 RoomManager.prototype.getWelcomeString = function(selfName){
     var length = _.size(this.clients);
     // If the user is the first one of the chat room, then just welcome him.
     if(length == 1){
-        return 'Welcome! You are the first one here!';
+        return 'Welcome! You are the only one here!';
     }
     // If the user is not the only one in the room, then we will tell him who else is also in the room.
     var str_part1 = _.map(

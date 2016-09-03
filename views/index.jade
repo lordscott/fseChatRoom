@@ -1,12 +1,13 @@
 div(class="views")
     div(class="login_view")
-        div
-            p(class="login_info") Welcome to FSE Chat Room!
+        div(class="login_panel")
+            div(class="login_info") Welcome to FSE Chat Room!
             input(class="login_input",placeholder="What is your name?")
     div(class="message_view")
-        div(class="message_nav") FSE Chat Room
+        div(class="message_nav")
+            div(class="message_nav_back") Back
+            div(class="message_nav_info") FSE Chat Room
         div(class="message_field")
-            div
             ul(class="message_list")
         input(class="message_input")
 script(typy='text/javascript', src='https://code.jquery.com/jquery-3.1.0.min.js').

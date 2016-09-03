@@ -1,6 +1,15 @@
 $(function() {
     var logined = false;
     
+    var PANEL_COLORS = [
+        'rgb(149,152,184)',
+        'rgb(189,149,159)',
+        'rgb(135,182,217)',
+        'rgb(248,138,210)',
+        'rgb(99,247,245)', 
+        'rgb(255,255,255)',
+        'rgb(162,230,91)'
+    ];
     var MESSAGE_FADE_IN_TIME = 180;
     var LOGIN_VIEW_FADE_OUT_TIME = 230;
     
@@ -11,6 +20,8 @@ $(function() {
 
     var $loginView = $('.login_view');
     var $messageView = $('.message_view');
+    
+    var myname = '';
 
     var socket = io.connect();
     
@@ -19,12 +30,18 @@ $(function() {
         var $time = $('<span>').addClass('message_time').append().text(message.time);
         var $text = $('<p>').addClass('message_text').append().text(message.text);
         var $title = $('<p>').addClass('message_title').append($sender,$time);
-        var $element = $('<li>').addClass('message_item').append($title,$text);
+        var $element;
+        if(myname == message.name){
+            $element = $('<li>').addClass('message_item self').append($title,$text);
+        } else {
+            $element = $('<li>').addClass('message_item others').append($title,$text);
+        }
+        $element.css('background', getUserColor(message.name));
         addMessageToField($element);
     }
     
     function addSystemMessage(message){
-        var $element = $('<li>').addClass('message_system').text(message.text);
+        var $element = $('<p>').addClass('message_system').text(message.text);
         addMessageToField($element);
     }
     
@@ -37,14 +54,28 @@ $(function() {
     function login(){
         var username = escape($loginInput.val().trim());
         if(username){
+            myname = username;
             $loginInput.val('');
-            socket.emit('login', { username: username });
-            $message_input.focus();
-            logined = true;
-            $loginView.fadeOut();
-            $messageView.show();
+            $loginView.fadeOut(function(){
+                socket.emit('login', { username: username });
+                logined = true;
+                $messageView.show();
+                $message_input.focus();
+            });
+            
         }
     }
+    
+    function leave(){
+        socket.emit('leave');
+        logined = false;
+        $messageView.fadeOut(function(){
+            $message_list.empty();
+            $loginView.show();
+            $loginInput.focus();
+        });
+    }
+    
     function sendMessage(){
         var message = escape($message_input.val().trim());
         if(message){
@@ -57,8 +88,15 @@ $(function() {
         return $('<div>').text(text).html();
     }
     
+    function getUserColor(username){
+        var hash = 392873767;  
+        for(var i = 0; i < username.length; i++) {  
+            hash ^= ((hash << 5) + username.charCodeAt(i) + (hash >> 2));  
+        }  
+        return PANEL_COLORS[Math.abs(hash % 7)];
+    }
+    
     socket.on('message', function (data) {
-        console.log(data);
         switch(data.type){
             case 'message_user':
                 addUserMessage(data.content);
@@ -91,6 +129,9 @@ $(function() {
                 else 
                     login();
             }
+        });
+        $('.message_nav_back').click(function(){
+            leave();
         });
     });
 });
