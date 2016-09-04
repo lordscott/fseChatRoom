@@ -1,3 +1,4 @@
+// format the date into a specific way
 Date.prototype.Format = function (fmt) {
     var o = {
         "M+": this.getMonth() + 1, 
@@ -13,10 +14,13 @@ Date.prototype.Format = function (fmt) {
     if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+// get the formated current time
 exports.currentTime = function(){
 	return new Date().Format("yyyy-MM-dd HH:mm:ss");
 }
 
+// format a date
 exports.format = function(date){
     return date.Format("yyyy-MM-dd HH:mm:ss");
 }

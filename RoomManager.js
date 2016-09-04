@@ -1,5 +1,6 @@
 var _ = require("underscore");
 var RoomManager = function() {
+    // all the clients in the room
 	this.clients = [];
 	this.dateFormat = require('./utils/DateFormat');
 	this.messageModel = require('./models/message');
@@ -12,7 +13,7 @@ RoomManager.prototype.MESSAGE_TYPE_USER = 'message_user';
 RoomManager.prototype.MESSAGE_TYPE_SYSTEM = 'message_system';
 RoomManager.prototype.MESSAGE_TYPE_USER_MULTI = 'message_user_multi';
 
-
+// start the socketio connector
 RoomManager.prototype.init = function(app) {
 	var Connector = require('./Connector');
 	this.clients = {};
@@ -22,18 +23,23 @@ RoomManager.prototype.init = function(app) {
 	console.log('RoomManager inits successfully.');
 }
 
+// let the client listen to the command of login
 RoomManager.prototype.clientInit = function(client){
     console.log('clientInit: %s', client.id);
 	client.setOnReceive(this, this.EVENT_LOGIN, this.onClientLogin);
 }
 
+// add a client to the client list
 RoomManager.prototype.addClient  = function(client){
     this.clients[client.id] = client;
 }
+
+// remove a client from the client list
 RoomManager.prototype.removeClient = function(client){
     delete this.clients[client.id];
 }
 
+// what to do when a client login
 RoomManager.prototype.onClientLogin = function(client, data) {
 	console.log('onClientLogin: %s %s', client.id, data.username);
     // transmit the context to all the callback functions
@@ -85,13 +91,14 @@ RoomManager.prototype.onClientLogin = function(client, data) {
 }
 
 
-
+// what to do when a client logout
 RoomManager.prototype.onClientDisconnect = function(client){
     console.log('onClientDisconnect: %s %s', client.id, client.name);
     // When a user disconnects, we should let him leave the room automatically.
 	this.onClientLeaveRoom(client);
 }
 
+// what to do when a client send message
 RoomManager.prototype.onClientMessage = function(client, data){
     console.log('onClientMessage: %s %s %s', client.id, client.name, JSON.stringify(data));
     // Get current time.
@@ -118,6 +125,7 @@ RoomManager.prototype.onClientMessage = function(client, data){
 	client.send(this.EVENT_MESSAGE, messageToSend);	
 }
 
+// what to do when a client leave
 RoomManager.prototype.onClientLeaveRoom = function(client){
     console.log('onClientLeaveRoom: %s %s', client.id, client.name);
     this.removeClient(client);
@@ -131,6 +139,7 @@ RoomManager.prototype.onClientLeaveRoom = function(client){
     this.clientInit(client);
 }
 
+// generate the welcome string a new user
 RoomManager.prototype.getWelcomeString = function(selfName){
     var length = _.size(this.clients);
     // If the user is the first one of the chat room, then just welcome him.

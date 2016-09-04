@@ -39,9 +39,7 @@ app.get('/', routes.index);
 var dbHelper = require('./DbHelper');
 dbHelper.connect();
 
-console.log(new Date());
-
-//room logic
+//int the RoomManager
 var roomManager = new RoomManager();
 roomManager.init(app);
 

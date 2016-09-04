@@ -1,3 +1,4 @@
+// the wrapper of the socketio
 var Connector = function(app,logicManager){
 	if(app && logicManager){
 		this.app = app;
@@ -7,6 +8,7 @@ var Connector = function(app,logicManager){
 	}
 }
 
+// link the connector to the roommanager
 Connector.prototype.init = function(){
 	if(this.io && this.logicManager){
 		(function(io,ClientClass,logicManager){
