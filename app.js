@@ -5,8 +5,7 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , RoomManager = require('./RoomManager')
-	, morgan = require('morgan');
+  , RoomManager = require('./RoomManager');
 
 var app = module.exports = express.createServer();
 
@@ -28,9 +27,6 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
-
-// logs
-app.use(morgan('combined'));
 
 // Routes
 app.get('/', routes.index);
